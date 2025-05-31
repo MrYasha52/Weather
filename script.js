@@ -1,81 +1,43 @@
 // http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no
 
-fetch("http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no").then(res=>res.json()).then(console.log)  // отримуємо погоду
-fetch("http://api.weatherapi.com/v1/forecast.json?key=e8b227f41dfb47fb9bf133323253105&q=London&days=14&aqi=no&alerts=no").then(res=>res.json()).then(console.log) // кільк погоди за 14 днів
+// ТОЛЬКО КЛЮЧ!
+const API_KEY = "e8b227f41dfb47fb9bf133323253105";
+const CITY = "Kyiv";
 
-// Получаем и выводим текущую погоду в консоль
-fetch("http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no")
-    .then(res => res.json())
-    .then(data => {
-        console.log("Текущая погода:", data);
-        const temp = data.current.temp_c;
-        const desc = data.current.condition.text;
-        const wind = data.current.wind_kph;
-        const humidity = data.current.humidity;
-        console.log(`Температура: ${temp}°C`);
-        console.log(`Описание: ${desc}`);
-        console.log(`Ветер: ${wind} км/ч`);
-        console.log(`Влажность: ${humidity}%`);
+// Сформировать URL
+const URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${CITY}&days=10&aqi=no&alerts=no`;
+
+// Получение и отображение погоды
+fetch(URL)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    document.getElementById("city").textContent = `${data.location.name}, ${data.location.country}`;
+
+    const now = new Date();
+    document.getElementById("date").textContent = now.toLocaleDateString("ru-RU", {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-// Получаем и выводим прогноз на 3 дня в консоль и на страницу
-fetch("http://api.weatherapi.com/v1/forecast.json?key=e8b227f41dfb47fb9bf133323253105&q=London&days=3&aqi=no&alerts=no")
-    .then(res => res.json())
-    .then(data => {
-        console.log("Прогноз на 3 дня:", data.forecast.forecastday);
-
-        // Находим секцию прогноза на странице
-        const forecastSection = document.querySelector('.forecast');
-        forecastSection.innerHTML = ''; // Очищаем старый прогноз
-
-        data.forecast.forecastday.forEach(day => {
-            // Создаем элементы для прогноза
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day';
-
-            // День недели
-            const date = new Date(day.date);
-            const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-            const dayName = days[date.getDay()];
-
-            const p = document.createElement('p');
-            p.textContent = dayName;
-
-            // Иконка погоды
-            const icon = document.createElement('img');
-            icon.src = "https:" + day.day.condition.icon;
-            icon.alt = day.day.condition.text;
-            icon.style.width = "32px";
-            icon.style.height = "32px";
-
-            // Температура
-            const span = document.createElement('span');
-            span.textContent = `+${Math.round(day.day.avgtemp_c)}°C`;
-
-            // Добавляем элементы в день
-            dayDiv.appendChild(p);
-            dayDiv.appendChild(icon);
-            dayDiv.appendChild(span);
-
-            // Добавляем день в секцию прогноза
-            forecastSection.appendChild(dayDiv);
-
-            // Также выводим в консоль
-            console.log(
-                `${day.date}: ${day.day.avgtemp_c}°C, ${day.day.condition.text}`
-            );
-        });
-
-        // Выводим текущую погоду на страницу
-        let currentSection = document.querySelector('.current-weather');
-        if (currentSection && data.location && data.current) {
-            currentSection.innerHTML = `
-            <h2>Погода в ${data.location.name}, ${data.location.country}</h2>
-            <p>Температура: ${data.current.temp_c}°C</p>
-            <p>Описание: ${data.current.condition.text}</p>
-            <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" width="48" height="48">
-            <p>Ветер: ${data.current.wind_kph} км/ч</p>
-            <p>Влажность: ${data.current.humidity}%</p>
-            `;
-        }
-    });
+    document.getElementById("icon").src = `https:${data.current.condition.icon}`;
+    document.getElementById("desc").textContent = data.current.condition.text;
+    document.getElementById("temp").textContent = `${data.current.temp_c} °C`;
+    document.getElementById("wind").textContent = (data.current.wind_kph / 3.6).toFixed(1);
+    document.getElementById("humidity").textContent = data.current.humidity;
+let forecast = document.querySelector('.forecast');
+forecast.innerHTML = '';
+    data.forecast.forecastday.forEach((day, index) => {
+        console.log(day);
+        forecast.innerHTML += `
+            <div class="day">
+                <p>${day.date}</p>
+                <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}">
+                <span>${day.day.avgtemp_c} °C</span>
+            </div>
+        `
+    })
+  })
+//   .catch((error) => {
+//     console.error("Ошибка при загрузке данных погоды:", error);
+//     document.getElementById("city").textContent = "Ошибка загрузки данных";
+//   });
