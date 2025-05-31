@@ -8,9 +8,39 @@
     <!-- Підключення стилів -->
     <link rel="stylesheet" href="style.css" />
 
-    <title>Document</title>
+    <title>Прогноз погоды</title>
   </head>
   <body>
+    <!-- Шапка -->
+    <header>
+      <div class="headtxt"><h1>Cloudy</h1></div>
+      <div class="search">
+        <input type="text" placeholder="Введите город..." />
+        <button><i class="fas fa-search"></i></button>
+      </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+      <section class="weather-info">
+        <h2>Погода сейчас</h2>
+        <div class="weather-main">
+          <i class="fas fa-cloud fa-3x"></i>
+          <span class="temperature">--°C</span>
+        </div>
+        <div class="weather-details">
+          <p>Влажность: --%</p>
+          <p>Ветер: -- м/с</p>
+          <p>Давление: -- мм рт. ст.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+      <p>&copy; 2024 Прогноз погоды. Все права защищены.</p>
+    </footer>
+
     <!-- Підключення FontAwesome для використання текстових іконок -->
     <script
       src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
