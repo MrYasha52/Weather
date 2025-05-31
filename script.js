@@ -1,74 +1,43 @@
 // http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no
 
-fetch("http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no").then(res=>res.json()).then(console.log)  // отримуємо погоду
-fetch("http://api.weatherapi.com/v1/forecast.json?key=e8b227f41dfb47fb9bf133323253105&q=London&days=14&aqi=no&alerts=no").then(res=>res.json()).then(console.log) // кільк погоди за 14 днів
+// ТОЛЬКО КЛЮЧ!
+const API_KEY = "e8b227f41dfb47fb9bf133323253105";
+const CITY = "Kyiv";
 
-import React, { useState } from 'react';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { CloudSun, MapPin } from 'lucide-react';
+// Сформировать URL
+const URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${CITY}&days=10&aqi=no&alerts=no`;
 
-const WeatherApp = () => {
-  const [city, setCity] = useState('');
-  const [weather, setWeather] = useState(null);
+// Получение и отображение погоды
+fetch(URL)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    document.getElementById("city").textContent = `${data.location.name}, ${data.location.country}`;
 
-  const handleSearch = async () => {
-    if (!city) return;
+    const now = new Date();
+    document.getElementById("date").textContent = now.toLocaleDateString("ru-RU", {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
 
-    try {
-      const apiKey = 'e8b227f41dfb47fb9bf133323253105';
-      const response = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}&aqi=no`
-      );
-      const data = await response.json();
-
-      if (data.error) {
-        alert(`Ошибка: ${data.error.message}`);
-        return;
-      }
-
-      setWeather({
-        city: data.location.name,
-        temperature: `${data.current.temp_c}°C`,
-        condition: data.current.condition.text,
-        icon: data.current.condition.icon,
-        forecast: [], // Можно добавить прогноз позже
-      });
-    } catch (error) {
-      console.error(error);
-      alert('Не удалось загрузить данные о погоде.');
-    }
-  };
-
-  return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center">🌦️ Прогноз погоды</h1>
-      <div className="flex gap-2">
-        <Input
-          placeholder="Введите город..."
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <Button onClick={handleSearch}>Найти</Button>
-      </div>
-
-      {weather && (
-        <Card className="mt-4">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2 text-xl font-semibold">
-              <MapPin size={20} />
-              {weather.city}
+    document.getElementById("icon").src = `https:${data.current.condition.icon}`;
+    document.getElementById("desc").textContent = data.current.condition.text;
+    document.getElementById("temp").textContent = `${data.current.temp_c} °C`;
+    document.getElementById("wind").textContent = (data.current.wind_kph / 3.6).toFixed(1);
+    document.getElementById("humidity").textContent = data.current.humidity;
+let forecast = document.querySelector('.forecast');
+forecast.innerHTML = '';
+    data.forecast.forecastday.forEach((day, index) => {
+        console.log(day);
+        forecast.innerHTML += `
+            <div class="day">
+                <p>${day.date}</p>
+                <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}">
+                <span>${day.day.avgtemp_c} °C</span>
             </div>
-            <div className="flex items-center gap-4 text-3xl font-bold">
-              <img src={weather.icon} alt={weather.condition} className="w-12 h-12" />
-              {weather.temperature} — {weather.condition}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
-  );
-};
-
-export default WeatherApp;
+        `
+    })
+  })
+//   .catch((error) => {
+//     console.error("Ошибка при загрузке данных погоды:", error);
+//     document.getElementById("city").textContent = "Ошибка загрузки данных";
+//   });
