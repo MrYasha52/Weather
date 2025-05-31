@@ -3,72 +3,79 @@
 fetch("http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no").then(res=>res.json()).then(console.log)  // отримуємо погоду
 fetch("http://api.weatherapi.com/v1/forecast.json?key=e8b227f41dfb47fb9bf133323253105&q=London&days=14&aqi=no&alerts=no").then(res=>res.json()).then(console.log) // кільк погоди за 14 днів
 
-import React, { useState } from 'react';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { CloudSun, MapPin } from 'lucide-react';
+// Получаем и выводим текущую погоду в консоль
+fetch("http://api.weatherapi.com/v1/current.json?key=e8b227f41dfb47fb9bf133323253105&q=London&aqi=no")
+    .then(res => res.json())
+    .then(data => {
+        console.log("Текущая погода:", data);
+        const temp = data.current.temp_c;
+        const desc = data.current.condition.text;
+        const wind = data.current.wind_kph;
+        const humidity = data.current.humidity;
+        console.log(`Температура: ${temp}°C`);
+        console.log(`Описание: ${desc}`);
+        console.log(`Ветер: ${wind} км/ч`);
+        console.log(`Влажность: ${humidity}%`);
+    });
 
-const WeatherApp = () => {
-  const [city, setCity] = useState('');
-  const [weather, setWeather] = useState(null);
+// Получаем и выводим прогноз на 3 дня в консоль и на страницу
+fetch("http://api.weatherapi.com/v1/forecast.json?key=e8b227f41dfb47fb9bf133323253105&q=London&days=3&aqi=no&alerts=no")
+    .then(res => res.json())
+    .then(data => {
+        console.log("Прогноз на 3 дня:", data.forecast.forecastday);
 
-  const handleSearch = async () => {
-    if (!city) return;
+        // Находим секцию прогноза на странице
+        const forecastSection = document.querySelector('.forecast');
+        forecastSection.innerHTML = ''; // Очищаем старый прогноз
 
-    try {
-      const apiKey = 'e8b227f41dfb47fb9bf133323253105';
-      const response = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}&aqi=no`
-      );
-      const data = await response.json();
+        data.forecast.forecastday.forEach(day => {
+            // Создаем элементы для прогноза
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day';
 
-      if (data.error) {
-        alert(`Ошибка: ${data.error.message}`);
-        return;
-      }
+            // День недели
+            const date = new Date(day.date);
+            const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+            const dayName = days[date.getDay()];
 
-      setWeather({
-        city: data.location.name,
-        temperature: `${data.current.temp_c}°C`,
-        condition: data.current.condition.text,
-        icon: data.current.condition.icon,
-        forecast: [], // Можно добавить прогноз позже
-      });
-    } catch (error) {
-      console.error(error);
-      alert('Не удалось загрузить данные о погоде.');
-    }
-  };
+            const p = document.createElement('p');
+            p.textContent = dayName;
 
-  return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center">🌦️ Прогноз погоды</h1>
-      <div className="flex gap-2">
-        <Input
-          placeholder="Введите город..."
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <Button onClick={handleSearch}>Найти</Button>
-      </div>
+            // Иконка погоды
+            const icon = document.createElement('img');
+            icon.src = "https:" + day.day.condition.icon;
+            icon.alt = day.day.condition.text;
+            icon.style.width = "32px";
+            icon.style.height = "32px";
 
-      {weather && (
-        <Card className="mt-4">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2 text-xl font-semibold">
-              <MapPin size={20} />
-              {weather.city}
-            </div>
-            <div className="flex items-center gap-4 text-3xl font-bold">
-              <img src={weather.icon} alt={weather.condition} className="w-12 h-12" />
-              {weather.temperature} — {weather.condition}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
-  );
-};
+            // Температура
+            const span = document.createElement('span');
+            span.textContent = `+${Math.round(day.day.avgtemp_c)}°C`;
 
-export default WeatherApp;
+            // Добавляем элементы в день
+            dayDiv.appendChild(p);
+            dayDiv.appendChild(icon);
+            dayDiv.appendChild(span);
+
+            // Добавляем день в секцию прогноза
+            forecastSection.appendChild(dayDiv);
+
+            // Также выводим в консоль
+            console.log(
+                `${day.date}: ${day.day.avgtemp_c}°C, ${day.day.condition.text}`
+            );
+        });
+
+        // Выводим текущую погоду на страницу
+        let currentSection = document.querySelector('.current-weather');
+        if (currentSection && data.location && data.current) {
+            currentSection.innerHTML = `
+            <h2>Погода в ${data.location.name}, ${data.location.country}</h2>
+            <p>Температура: ${data.current.temp_c}°C</p>
+            <p>Описание: ${data.current.condition.text}</p>
+            <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" width="48" height="48">
+            <p>Ветер: ${data.current.wind_kph} км/ч</p>
+            <p>Влажность: ${data.current.humidity}%</p>
+            `;
+        }
+    });
