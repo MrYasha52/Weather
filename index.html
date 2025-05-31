@@ -1,54 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Підключення стилів -->
+    <!-- Подключение стилей -->
     <link rel="stylesheet" href="style.css" />
 
-    <title>Прогноз погоды</title>
-  </head>
-  <body>
-    <!-- Шапка -->
-    <header>
-      <div class="headtxt"><h1>Cloudy</h1></div>
-      <div class="search">
-        <input type="text" placeholder="Введите город..." />
-        <button><i class="fas fa-search"></i></button>
-      </div>
-    </header>
-
-    <!-- Основной контент -->
-    <main>
-      <section class="weather-info">
-        <h2>Погода сейчас</h2>
-        <div class="weather-main">
-          <i class="fas fa-cloud fa-3x"></i>
-          <span class="temperature">--°C</span>
-        </div>
-        <div class="weather-details">
-          <p>Влажность: --%</p>
-          <p>Ветер: -- м/с</p>
-          <p>Давление: -- мм рт. ст.</p>
-        </div>
-      </section>
-    </main>
-
-    <!-- Подвал -->
-    <footer>
-      <p>&copy; 2024 Прогноз погоды. Все права защищены.</p>
-    </footer>
-
-    <!-- Підключення FontAwesome для використання текстових іконок -->
+    <!-- Подключение FontAwesome -->
     <script
       src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
       integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
       crossorigin="anonymous"
     ></script>
 
-    <!-- Підключення локального скрипта -->
+    <title>Погода</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Київ</h1>
+        <p class="date">31 травня 2025, субота</p>
+      </header>
+
+      <section class="current-weather">
+        <i class="fas fa-sun weather-icon"></i>
+        <div>
+          <p class="temperature">+27°C</p>
+          <p class="description">Сонячно</p>
+        </div>
+      </section>
+
+      <section class="forecast">
+        <div class="day">
+          <p>Пн</p>
+          <i class="fas fa-cloud"></i>
+          <span>+23°C</span>
+        </div>
+        <div class="day">
+          <p>Вт</p>
+          <i class="fas fa-cloud-showers-heavy"></i>
+          <span>+19°C</span>
+        </div>
+        <div class="day">
+          <p>Ср</p>
+          <i class="fas fa-sun"></i>
+          <span>+25°C</span>
+        </div>
+        <div class="day">
+          <p>Чт</p>
+          <i class="fas fa-bolt"></i>
+          <span>+21°C</span>
+        </div>
+        <div class="day">
+          <p>Пт</p>
+          <i class="fas fa-snowflake"></i>
+          <span>+2°C</span>
+        </div>
+      </section>
+
+      <section class="details">
+        <div class="detail">
+          <p>Вітер</p>
+          <strong>5 м/с</strong>
+        </div>
+        <div class="detail">
+          <p>Вологість</p>
+          <strong>68%</strong>
+        </div>
+      </section>
+    </div>
+
+    <!-- Подключение локального скрипта -->
     <script src="script.js"></script>
   </body>
 </html>
+

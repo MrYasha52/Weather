@@ -13,22 +13,32 @@ const WeatherApp = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
 
-  const mockWeather = {
-    city: 'Москва',
-    temperature: '18°C',
-    condition: 'Облачно',
-    forecast: [
-      { day: 'Пн', temp: '17°C', icon: '🌧️' },
-      { day: 'Вт', temp: '19°C', icon: '🌤️' },
-      { day: 'Ср', temp: '21°C', icon: '☀️' },
-      { day: 'Чт', temp: '20°C', icon: '⛅' },
-      { day: 'Пт', temp: '16°C', icon: '🌧️' },
-    ],
-  };
+  const handleSearch = async () => {
+    if (!city) return;
 
-  const handleSearch = () => {
-    // Здесь будет реальный API-запрос
-    setWeather(mockWeather);
+    try {
+      const apiKey = 'e8b227f41dfb47fb9bf133323253105';
+      const response = await fetch(
+        `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}&aqi=no`
+      );
+      const data = await response.json();
+
+      if (data.error) {
+        alert(`Ошибка: ${data.error.message}`);
+        return;
+      }
+
+      setWeather({
+        city: data.location.name,
+        temperature: `${data.current.temp_c}°C`,
+        condition: data.current.condition.text,
+        icon: data.current.condition.icon,
+        forecast: [], // Можно добавить прогноз позже
+      });
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось загрузить данные о погоде.');
+    }
   };
 
   return (
@@ -51,17 +61,8 @@ const WeatherApp = () => {
               {weather.city}
             </div>
             <div className="flex items-center gap-4 text-3xl font-bold">
-              <CloudSun size={40} />
+              <img src={weather.icon} alt={weather.condition} className="w-12 h-12" />
               {weather.temperature} — {weather.condition}
-            </div>
-            <div className="grid grid-cols-5 gap-4 mt-4">
-              {weather.forecast.map((day, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-lg font-semibold">{day.day}</div>
-                  <div className="text-2xl">{day.icon}</div>
-                  <div>{day.temp}</div>
-                </div>
-              ))}
             </div>
           </CardContent>
         </Card>
