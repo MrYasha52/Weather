@@ -58,6 +58,12 @@ body {
   background-color: #f0f0f0;
 }
 
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 header {
   text-align: center;
   margin-bottom: 20px;
@@ -148,3 +154,37 @@ header h1 {
   color: #10b981;
 }
 
+.hourly-forecast {
+  margin-top: 30px;
+}
+
+.hourly-forecast h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.hour {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 80px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.uptime {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: row;
+}
+
+.hourly-forecast {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 10px;
+}

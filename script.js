@@ -1,6 +1,7 @@
 const API_KEY = "e8b227f41dfb47fb9bf133323253105";
 const input = document.getElementById("cityInput");
 const suggestionsBox = document.querySelector(".suggestions");
+const errorMsg = document.getElementById("error-message");
 
 input.addEventListener("input", () => {
     const query = input.value.trim();
@@ -31,11 +32,18 @@ function getWeather(city = "Kyiv") {
     const URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5&aqi=no&alerts=no`;
 
     fetch(URL)
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Місто не знайдено");
+            }
+            return response.json();
+        })
         .then((data) => {
-            document.getElementById("city").textContent = `${data.location.name}, ${data.location.country}`;
+            errorMsg.style.display = "none";
+            document.querySelector(".current-weather").style.display = "flex";
+            document.querySelector(".details").style.display = "grid";
 
-            // Показати локальний час
+            document.getElementById("city").textContent = `${data.location.name}, ${data.location.country}`;
             const localTime = new Date(data.location.localtime);
             document.getElementById("local-time").textContent = localTime.toLocaleTimeString("uk-UA", {
                 hour: "2-digit",
@@ -76,7 +84,17 @@ function getWeather(city = "Kyiv") {
                   </div>
                 `;
             });
+        })
+        .catch((error) => {
+            errorMsg.textContent = "Місто не знайдено. Спробуйте інше.";
+            errorMsg.style.display = "block";
+            document.getElementById("city").textContent = "Невідоме місто";
+            document.querySelector(".current-weather").style.display = "none";
+            document.querySelector(".details").style.display = "none";
+            document.querySelector(".forecast").innerHTML = '';
+            document.getElementById("local-time").textContent = "--:--";
         });
 }
 
 getWeather();
+    
