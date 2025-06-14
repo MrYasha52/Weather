@@ -26,7 +26,7 @@ input.addEventListener("input", () => {
                 suggestion.className = "suggestion";
                 suggestion.textContent = `${location.name}, ${location.country}`;
 
-                // При выборе подсказки — обновляем поле и загружаем погоду
+                    // При выборе подсказки — обновляем поле и загружаем погоду
                 suggestion.addEventListener("click", () => {
                     input.value = location.name;
                     suggestionsBox.innerHTML = "";
