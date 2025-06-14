@@ -105,19 +105,27 @@ function getWeather(city = "Kyiv") {
                   </div>
                 `;
             });
-            // 🕐 Погодинний прогноз на сьогодні (до 24 годин)
+
+            // 🕐 Погодинний прогноз на сьогодні (до 24 годин) с деталями
             let hourlyContainer = document.getElementById("hourly-container");
             hourlyContainer.innerHTML = "";
 
             data.forecast.forecastday[0].hour.forEach(hourData => {
                 const time = new Date(hourData.time).getHours().toString().padStart(2, '0') + ":00";
+                const windMs = (hourData.wind_kph / 3.6).toFixed(1); // км/ч в м/с
+                const humidity = hourData.humidity;
+                const conditionText = hourData.condition.text;
+
                 hourlyContainer.innerHTML += `
-        <div class="hour-block">
-            <p>${time}</p>
-            <img src="https:${hourData.condition.icon}" alt="${hourData.condition.text}" />
-            <p>${hourData.temp_c} °C</p>
-        </div>
-    `;
+                    <div class="hour-block">
+                        <p>${time}</p>
+                        <img src="https:${hourData.condition.icon}" alt="${conditionText}" />
+                        <p>${hourData.temp_c} °C</p>
+                        <p>Вітер: ${windMs} м/с</p>
+                        <p>Вологість: ${humidity}%</p>
+                        <p>${conditionText}</p>
+                    </div>
+                `;
             });
 
         })
