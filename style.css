@@ -189,6 +189,24 @@ header h1 {
   padding-bottom: 10px;
 }
 
-.hour-block{
-  
+.hourly-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hour-block {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.hour-block img {
+  width: 36px;
+  height: 36px;
 }
