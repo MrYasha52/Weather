@@ -82,15 +82,7 @@ function getWeather(city = "Kyiv") {
             const app = document.querySelector(".app");
             const condition = data.current.condition.text.toLowerCase();
 
-            if (condition.includes("sunny") || condition.includes("clear")) {
-                app.style.backgroundColor = "#fff7d6"; // солнечно
-            } else if (condition.includes("rain")) {
-                app.style.backgroundColor = "#d6ecff"; // дождь
-            } else if (condition.includes("cloud") || condition.includes("overcast")) {
-                app.style.backgroundColor = "#e2e8f0"; // облачно
-            } else {
-                app.style.backgroundColor = "#f0f4f8"; // по умолчанию
-            }
+            
 
             // 📆 Прогноз на ближайшие 5 дней
             let forecast = document.querySelector('.forecast');
