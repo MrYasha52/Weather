@@ -1,0 +1,243 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f4f8;
+  color: #1f2937;
+}
+
+.app {
+  min-height: 100vh;
+  transition: background-color 0.5s ease;
+  position: relative;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+#cityInput {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#cityInput:focus {
+  border-color: #3b82f6;
+}
+
+.suggestions {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 10;
+  width: calc(100% - 40px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.suggestion {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suggestion:hover {
+  background-color: #f0f0f0;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.date {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.current-weather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.temperature {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ef4444;
+  margin: 0;
+}
+
+.description {
+  margin: 0;
+  color: #6b7280;
+}
+
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.day {
+  background-color: #fff;
+  padding: 15px;
+  text-align: center;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.detail {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.time-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  margin-top: 25px;
+}
+
+.time-info h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #374151;
+}
+
+#local-time {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.hourly-forecast {
+  margin-top: 30px;
+}
+
+.hourly-forecast h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.hour {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 80px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.uptime {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: row;
+}
+
+.hourly-forecast {
+  margin-top: 30px;
+}
+
+#hourly-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 12px;
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+.hour {
+  
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.hour:hover {
+  transform: scale(1.05);
+  background-color: #e2e8f0;
+}
+
+.hour img {
+  margin: 6px 0;
+}
+
+.details {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.detail {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  flex: 1 1 150px;
+  max-width: 200px;
+  min-width: 150px;
+  border: 2px solid #facc15; /* Жёлтая рамка как у тебя */
+}
+
+.precipitation {
+  border-color: #f87171; /* Красная рамка */
+}

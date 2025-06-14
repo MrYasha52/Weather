@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Погода</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="app">
+    <input type="text" id="cityInput" placeholder="Введіть місто..." autocomplete="off" />
+    <div class="suggestions"></div>
+    <div class="error-message" id="error-message"></div>
+    <div class="container">
+      <section class="time-info">
+        <h3>Місцевий час</h3>
+        <p id="local-time">--:--</p>
+      </section>
+      <header>
+        <h1 id="city"></h1>
+        <p class="date" id="date"></p>
+      </header>
+      <section class="current-weather">
+        <img src="" id="icon" alt="Піктограма погоди" />
+        <div>
+          <p class="temperature" id="temp"></p>
+          <p id="desc" class="description"></p>
+        </div>
+      </section>
+      <section class="forecast"></section>
+      <h3 class="toh">Погода по годинах</h3>
+      <section class="hourly-forecast">
+        <div class="hourly-container" id="hourly-container"></div>
+      </section>
+      <section class="details">
+        <div class="details">
+          <div class="detail wind">Вітер (м/с)<br><span id="wind">5.6</span></div>
+          <div class="detail humidity">Вологість (%)<br><span id="humidity">60</span></div>
+          <div class="detail precipitation">Опади (мм)<br><span id="precip">0.0</span></div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
