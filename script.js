@@ -118,7 +118,12 @@ function getWeather(city = "Kyiv") {
       data.forecast.forecastday.forEach((day) => {
         forecastElem.innerHTML += `
           <div class="day">
-              <p>${day.date}</p>
+              <p>${new Date(day.date).toLocaleDateString("uk-UA", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}</p>
               <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}">
               <span>${day.day.avgtemp_c} °C</span>
           </div>
