@@ -1,4 +1,4 @@
-// 🔑 API-ключ для WeatherAPI
+// API   
 const API_KEY = "e8b227f41dfb47fb9bf133323253105";
 
 // Получаем элементы DOM
@@ -16,7 +16,7 @@ const hourlyContainer = document.getElementById("hourly-container");
 const localTimeElem = document.getElementById("local-time");
 const dateElem = document.getElementById("date");
 
-// 📥 Обработка ввода текста в поле города
+// Обработка ввода текста в поле города
 input.addEventListener("input", () => {
   const query = input.value.trim();
   if (query.length < 2) {
@@ -99,7 +99,7 @@ function getWeather(city = "Kyiv") {
       windElem.textContent = (data.current.wind_kph / 3.6).toFixed(1);
       humidityElem.textContent = data.current.humidity;
 
-      // 🎨 Фоновое оформление по погоде
+      //  Фоновое оформление по погоде
       const condition = data.current.condition.text.toLowerCase();
       const app = document.querySelector(".app");
       if (condition.includes("rain") || condition.includes("дощ")) {
@@ -156,5 +156,4 @@ function getWeather(city = "Kyiv") {
     });
 }
 
-// 🚀 Початковий виклик
 getWeather();
