@@ -98,6 +98,9 @@ function getWeather(city = "Kyiv") {
       tempElem.textContent = `${data.current.temp_c} °C`;
       windElem.textContent = (data.current.wind_kph / 3.6).toFixed(1);
       humidityElem.textContent = data.current.humidity;
+      document.getElementById("sunrise").textContent = data.forecast.forecastday[0].astro.sunrise;
+      document.getElementById("sunset").textContent = data.forecast.forecastday[0].astro.sunset;
+
 
       //  Фоновое оформление по погоде
       const condition = data.current.condition.text.toLowerCase();
@@ -119,11 +122,11 @@ function getWeather(city = "Kyiv") {
         forecastElem.innerHTML += `
           <div class="day">
               <p>${new Date(day.date).toLocaleDateString("uk-UA", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}</p>
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}</p>
               <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}">
               <span>${day.day.avgtemp_c} °C</span>
           </div>
